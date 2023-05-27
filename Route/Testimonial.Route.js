@@ -26,6 +26,29 @@ TestimonialRoute.post("/post",async(req,res)=>{
    }
 })
 
+
+TestimonialRoute.delete("/delete/:id",async(req,res)=>{
+  const id=req.params.id
+  try{
+      await TestimonialModel.findByIdAndDelete({"_id":id})
+      res.send("Delete Success")
+  }
+  catch{
+    res.send("err")
+  }
+})
+
+TestimonialRoute.patch("/upload/:id",async(req,res)=>{
+  const id=req.params.id
+  try{
+      await TestimonialModel.findByIdAndUpdate({"_id":id})
+      res.send("Upload Success")
+  }
+  catch{
+    res.send("err")
+  }
+})
+
 module.exports={
     TestimonialRoute
   }

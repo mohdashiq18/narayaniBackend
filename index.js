@@ -5,6 +5,8 @@ const app = express();
 const {DataRoute} =require("./Route/DataRoute")
 const {userRoute} =require("./Route/UserRout")
 const {TestimonialRoute} =require("./Route/Testimonial.Route")
+const {Carouselrouter} =require("./Route/CarouselRoute")
+const {AchievementRoute} =require("./Route/AchivmentRoute")
 const cors=require("cors")
 app.use(express.json());
 app.use(
@@ -15,6 +17,8 @@ app.use(
 app.use("/",DataRoute)
 app.use("/",userRoute)
 app.use("/testimonial",TestimonialRoute)
+app.use("/achievement",AchievementRoute)
+app.use("/",Carouselrouter)
 app.listen(process.env.PORT,async(req,res)=>{
     try{
       await Connect
