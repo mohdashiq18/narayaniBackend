@@ -12,12 +12,8 @@ Carouselrouter.get('/', async (req, res) => {
   });
   
   Carouselrouter.post('/', async (req, res) => {
-    const carouselItem = new CarouselModel({
-      imgPc: req.body.imgPc,
-      imgMobile: req.body.imgMobile,
-      text: req.body.text,
-      heading: req.body.heading
-    });
+     const payload=req.body
+    const carouselItem = new CarouselModel(payload);
   
     try {
       const newCarouselItem = await carouselItem.save();
