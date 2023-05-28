@@ -4,49 +4,50 @@ const {TestimonialModel} =require("../Model/Testimonial")
 const TestimonialRoute=express.Router()
 
 
-TestimonialRoute.get("/get",async(req,res)=>{
+TestimonialRoute.get("/",async(req,res)=>{
     try{
        const data=await TestimonialModel.find()
        res.send(data)
     }
-    catch{
-      res.send("err")
-    }
+    catch(err){
+      res.send(err)
+  }
 })
 
-TestimonialRoute.post("/post",async(req,res)=>{
+TestimonialRoute.post("/",async(req,res)=>{
     const payload=req.body
    try{
       const data=new TestimonialModel(payload)
       await data.save()
       res.send(data)
    }
-   catch{
-     res.send("err")
-   }
+   catch(err){
+    res.send(err)
+}
 })
 
 
-TestimonialRoute.delete("/delete/:id",async(req,res)=>{
+TestimonialRoute.delete("/:id",async(req,res)=>{
   const id=req.params.id
   try{
       await TestimonialModel.findByIdAndDelete({"_id":id})
       res.send("Delete Success")
   }
-  catch{
-    res.send("err")
-  }
+  catch(err){
+    res.send(err)
+}
 })
 
-TestimonialRoute.patch("/upload/:id",async(req,res)=>{
+TestimonialRoute.patch("/:id",async(req,res)=>{
   const id=req.params.id
+  const payload=req.body
   try{
-      await TestimonialModel.findByIdAndUpdate({"_id":id})
+      await TestimonialModel.findByIdAndUpdate({"_id":id},payload)
       res.send("Upload Success")
   }
-  catch{
-    res.send("err")
-  }
+  catch(err){
+    res.send(err)
+}
 })
 
 module.exports={

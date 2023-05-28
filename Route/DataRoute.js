@@ -3,68 +3,76 @@ const DataRoute=express.Router()
 
 const {UploadModel} =require("../Model/UploadModel")
 
-  DataRoute.get("/getdata",async(req,res)=>{
-    try {
-      const { category, length, width } = req.query;
-      const filterOptions = [];
-  
-      if (category) {
-        filterOptions.push({ category });
-      }
-  
-      if (length) {
-        filterOptions.push({ 'size._length': { $lte: Number(length) } });
-      }
-  
-      if (width) {
-        filterOptions.push({ 'size._width': { $lte: Number(width) } });
-      }
-  
-      let filter = {};
-  
-      if (filterOptions.length > 0) {
-        filter = { $and: filterOptions };
-      }
-  
-      const uploads = await UploadModel.find(filter);
-      res.status(200).json(uploads);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal server error' });
+DataRoute.get("/", async (req, res) => {
+  try {
+    const { category, length, width, page } = req.query;
+    const itemsPerPage = 3;
+    const currentPage = page ? parseInt(page) : 1;
+    const skipItems = (currentPage - 1) * itemsPerPage;
+    
+    const filterOptions = [];
+
+    if (category) {
+      filterOptions.push({ category });
     }
-  })
-  DataRoute.get("/getdata/:id",async(req,res)=>{
+
+    if (length) {
+      filterOptions.push({ 'size._length': { $lte: Number(length) } });
+    }
+
+    if (width) {
+      filterOptions.push({ 'size._width': { $lte: Number(width) } });
+    }
+
+    let filter = {};
+
+    if (filterOptions.length > 0) {
+      filter = { $and: filterOptions };
+    }
+
+    const uploads = await UploadModel.find(filter)
+      .skip(skipItems)
+      .limit(itemsPerPage);
+
+    res.status(200).json(uploads);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+  DataRoute.get("/:id",async(req,res)=>{
     const id=req.params.id
     try{
        const data = await UploadModel.findOne({"_id":id})
        res.send(data)
     }
-    catch{
-      res.send("Err Get Section")
-    }
+    catch(err){
+      res.send(err)
+  }
   })
-  DataRoute.delete("/delete/:id",async(req,res)=>{
+  DataRoute.delete("/:id",async(req,res)=>{
     const id = req.params.id
     try{
         await UploadModel.findByIdAndDelete({"_id":id})
         res.send("Delete success")
     }
-    catch{
-       res.send("err Delete section")
-    }
+    catch(err){
+      res.send(err)
+  }
   })
-  DataRoute.patch("/update/:id",async(req,res)=>{
+  DataRoute.patch("/:id",async(req,res)=>{
     const id = req.params.id
     const payload=req.body
     try{
         await UploadModel.findByIdAndUpdate({"_id":id},payload)
         res.send("Update success")
     }
-    catch{
-       res.send("err Update section")
-    }
+    catch(err){
+      res.send(err)
+  }
   })
-  DataRoute.post("/upload",async(req, res,next) => {
+  DataRoute.post("/",async(req, res,next) => {
   const payload=req.body
   const currentDate = new Date();
   
@@ -78,9 +86,9 @@ const {UploadModel} =require("../Model/UploadModel")
      await data.save()
      res.send(data)
   }
-  catch{
-    res.send("Err")
-  }
+  catch(err){
+    res.send(err)
+}
   });
 
 

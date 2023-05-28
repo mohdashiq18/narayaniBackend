@@ -14,11 +14,11 @@ app.use(
     origin: "*",
   })
 );
-app.use("/",DataRoute)
-app.use("/",userRoute)
+app.use("/data",DataRoute)
+app.use("/users",userRoute)
 app.use("/testimonial",TestimonialRoute)
 app.use("/achievement",AchievementRoute)
-app.use("/",Carouselrouter)
+app.use("/carousel",Carouselrouter)
 app.listen(process.env.PORT,async(req,res)=>{
     try{
       await Connect

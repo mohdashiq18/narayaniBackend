@@ -2,7 +2,7 @@ const express = require('express');
 const Carouselrouter = express.Router();
 const {CarouselModel} = require('../Model/Carousel');
 
-Carouselrouter.get('/carousal', async (req, res) => {
+Carouselrouter.get('/', async (req, res) => {
     try {
       const carouselItems = await CarouselModel.find();
       res.json(carouselItems);
@@ -11,7 +11,7 @@ Carouselrouter.get('/carousal', async (req, res) => {
     }
   });
   
-  Carouselrouter.post('/carousal', async (req, res) => {
+  Carouselrouter.post('/', async (req, res) => {
     const carouselItem = new CarouselModel({
       imgPc: req.body.imgPc,
       imgMobile: req.body.imgMobile,
@@ -27,27 +27,27 @@ Carouselrouter.get('/carousal', async (req, res) => {
     }
   });
   
-  Carouselrouter.patch('/carousal/:id', async (req, res) => {
+  Carouselrouter.patch('/:id', async (req, res) => {
     const payload=req.body
     const id=req.params.id
     try{
        const data=await CarouselModel.findByIdAndUpdate({"_id":id},payload)
        res.send(data)
     }
-    catch{
-        res.send("err")
+    catch(err){
+        res.send(err)
     }
     
   });
   
-  Carouselrouter.delete('/carousal/:id', async (req, res) => {
+  Carouselrouter.delete('/:id', async (req, res) => {
     const id=req.params.id
     try{
        const data=await CarouselModel.findByIdAndDelete({"_id":id})
        res.send(data)
     }
-    catch{
-        res.send("err")
+    catch(err){
+        res.send(err)
     }
     
   });

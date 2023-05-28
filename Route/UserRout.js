@@ -23,7 +23,7 @@ userRoute.post("/register",async(req,res)=>{
 })
 
 
-userRoute.get('/users', async (req, res) => {
+userRoute.get('/', async (req, res) => {
   try {
     const { sortBy, consultStatus } = req.query;
     let sortOptions = {};
@@ -54,7 +54,7 @@ userRoute.get('/users', async (req, res) => {
 });
 
 
-userRoute.patch('/users/:id', async (req, res) => {
+userRoute.patch('/:id', async (req, res) => {
   const { id } = req.params;
   const updateData = req.body;
 
@@ -75,7 +75,7 @@ userRoute.patch('/users/:id', async (req, res) => {
 });
 
 
-userRoute.delete('/users/:id', async (req, res) => {
+userRoute.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
