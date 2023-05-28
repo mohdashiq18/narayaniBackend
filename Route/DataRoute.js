@@ -9,7 +9,7 @@ DataRoute.get("/", async (req, res) => {
     const itemsPerPage = 12;
     const currentPage = page ? parseInt(page) : 1;
     const skipItems = (currentPage - 1) * itemsPerPage;
-    
+
     const filterOptions = [];
 
     if (category) {
@@ -30,11 +30,14 @@ DataRoute.get("/", async (req, res) => {
       filter = { $and: filterOptions };
     }
 
+    const totalItems = await UploadModel.countDocuments(filter);
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
     const uploads = await UploadModel.find(filter)
       .skip(skipItems)
       .limit(itemsPerPage);
 
-    res.status(200).json(uploads);
+    res.status(200).json({ uploads, totalPages });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal server error' });
