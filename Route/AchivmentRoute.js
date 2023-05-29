@@ -39,8 +39,9 @@ AchievementRoute.delete("/:id",async(req,res)=>{
 
 AchievementRoute.patch("/:id",async(req,res)=>{
   const id=req.params.id
+  const payload=req.body
   try{
-      await AchievementModel.findByIdAndUpdate({"_id":id})
+      await AchievementModel.findByIdAndUpdate({"_id":id},payload)
       res.send("Upload Success")
   }
   catch(err){
