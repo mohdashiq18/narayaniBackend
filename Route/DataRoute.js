@@ -24,7 +24,7 @@ DataRoute.get("/", async (req, res) => {
       filterOptions.push({ 'size._width': { $lte: Number(width) } });
     }
 
-    if (keyword) {
+    if (search) {
       filterOptions.push({ "category": { $regex: search, $options: "i" }  });
     }
 
