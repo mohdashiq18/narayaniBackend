@@ -1,18 +1,15 @@
-const mongoose=require("mongoose")
+const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String ,required: true},
-    number: { type: String, required: true },
-    last_visit: { type: String,required:true },
-    next_consult_date: { type: String, default: 'Not Updated' },
-    consult_status: { type: Boolean, default: false },
-    consulter_name: { type: String, default: 'Not Consulted' },
-    consult_feedback: { type: String, default: 'Not Consulted' }
-  });
+  name: { type: String, required: true },
 
-const UserModel=mongoose.model("users",userSchema)
+  email: { type: String, required: true },
+  number: { type: String, required: true },
+  last_visit: { type: String, required: true },
+});
 
-module.exports={
-    UserModel
-}
+const UserModel = mongoose.model("users", userSchema);
+
+module.exports = {
+  UserModel,
+};
