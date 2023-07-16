@@ -68,7 +68,38 @@ userRoute.get('/', async (req, res) => {
   }
 });
 
+userRoute.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await UserModel.find({"_id":id})
 
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+userRoute.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const payload=req.body
+  try {
+    const user = await UserModel.findByIdAndUpdate({"_id":id},payload)
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 userRoute.delete('/:id', async (req, res) => {
   const { id } = req.params;
 

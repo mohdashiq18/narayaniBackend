@@ -47,6 +47,6 @@ ServicesMain.patch("/:id", async (req, res) => {
   }
 });
 
-module.exports = {
+module.exports = { 
   ServicesMain,
 };
