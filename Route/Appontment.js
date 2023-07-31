@@ -9,7 +9,7 @@ Appointment.get("/", async (req, res) => {
     let data;
 
     if (query) {
-      data = await AppointmentModel.find({
+      data = await AppointmentModel.find({ 
         $or: [
           { next_consult_date: { $regex: query, $options: "i" } },
           { phone: { $regex: query, $options: "i" } },
